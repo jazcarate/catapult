@@ -1,5 +1,6 @@
+/*global next*/
+
 var mongoose = require('mongoose')
-  , moment = require('moment')
   , Schema = mongoose.Schema;
 
 var PersonaSchema = new Schema({
@@ -11,7 +12,7 @@ var PersonaSchema = new Schema({
 var AutoSchema = new Schema({
   asientos: Number,
   deQuien: PersonaSchema,
-  ocupantes: [PersonaSchema]
+  ocupantes: [PersonaSchema],
   actualizado: { type: Date, default: Date.now }
 });
 

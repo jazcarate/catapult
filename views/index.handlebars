@@ -1,0 +1,35 @@
+<div id="floating-panel">
+    {{#each event.departures}}
+        {{this}} |
+    {{/each}}
+    <b>End: {{event.destination}}</b>
+    </div>
+    <div id="map" style="width: 800px; height: 400px;"></div>
+    <script>
+      /*global google*/
+      function initMap() {
+        var directionsService = new google.maps.DirectionsService;
+        var directionsDisplay = new google.maps.DirectionsRenderer;
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 7
+        });
+        directionsDisplay.setMap(map);
+
+        calculateAndDisplayRoute(directionsService, directionsDisplay);
+      }
+
+      function calculateAndDisplayRoute(directionsService, directionsDisplay) {
+        directionsService.route({
+          origin: document.getElementById('start').value,
+          destination: "{{event.destination}}",
+          travelMode: 'DRIVING'
+        }, function(response, status) {
+          if (status === 'OK') {
+            directionsDisplay.setDirections(response);
+          } else {
+            window.alert('Directions request failed due to ' + status);
+          }
+        });
+      }
+    </script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key={{api}}&callback=initMap"></script>
