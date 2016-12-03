@@ -1,0 +1,11 @@
+<h2>
+  Agregar un auto para {{evento.nombre}}
+</h2>
+
+<form action="/nuevoAuto" method="POST">
+  <input type="hidden" name="evento" value="{{evento._id}}"> <br />
+  <input type="text" placeholder="Nombre Persona" name="duenio"> <br />
+  <input type="text" placeholder="Origen" name="origen"><br />
+  Cantidad de asientos: <input type="number" name="asientosLibres"><br />
+  <button type="submit">Crear!</button>
+</form>

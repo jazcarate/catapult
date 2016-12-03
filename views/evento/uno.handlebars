@@ -1,0 +1,55 @@
+<h2>{{evento.nombre}}</h2>
+<a href="/evento/{{evento._id}}/auto">Agregar un auto</a> <br />
+<div id="floating-panel">
+{{#each evento.salidas}}
+    {{this}} |
+{{/each}}
+<b>Destino: {{evento.destino}}</b>
+<p>Evento: {{json evento}}</p>
+</div>
+<div id="mapa" style="width: 800px; height: 400px;"></div>
+<script>
+  /*global google*/
+  function initMap() {
+    var directionsService = new google.maps.DirectionsService();
+    
+    var mapa = new google.maps.Map(document.getElementById('mapa'), {
+      zoom: 7
+    });
+    
+    for( unRequest of armarRequests()){
+      calcularYMostrar(directionsService, mapa, unRequest);
+    }
+    
+  }
+  
+  function armarRequests(){
+    requestArray = [];
+    var destino = "{{evento.destino}}";
+    {{#each salidas}}
+      var desde = "{{this}}";
+      console.log(`Desde: ${desde}`);
+      console.log(`Hasta: ${destino}`);
+      var request = {
+              origin: "{{this}}",
+              destination: "{{evento.destino}}",
+              travelMode: google.maps.TravelMode.DRIVING
+          };
+      requestArray.push(request);
+    {{/each}}
+    return requestArray;
+  }
+
+  function calcularYMostrar(directionsService, mapa, request) {
+    directionsService.route(request, function(response, status) {
+      if (status === google.maps.DirectionsStatus.OK) {
+        var directionsDisplay = new google.maps.DirectionsRenderer(); 
+        directionsDisplay.setMap(mapa);
+        directionsDisplay.setDirections(response);
+      } else {
+        window.alert('Directions request failed due to ' + status);
+      }
+    });
+  }
+</script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key={{api}}&callback=initMap"></script>

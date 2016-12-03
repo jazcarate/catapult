@@ -1,5 +1,5 @@
 var express = require('express')
-  , kudos = require('./routes/carPool')
+  , catapult = require('./routes/catapult')
   , http = require('http')
   , path = require('path')
   , mongoose = require('mongoose')
@@ -43,7 +43,7 @@ app.use(multer());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-app.use('/', kudos);
+app.use('/', catapult);
 
 // development only
 if ('development' == app.get('env')) {
