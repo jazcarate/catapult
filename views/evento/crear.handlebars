@@ -2,10 +2,30 @@
   Crear un evento
 </h2>
 
-<form action="/nuevoEvento" method="POST">
+<form action="/nuevoEvento" method="POST" onSubmit="javascript: return actualizarDestino(this);">
   <input type="text" placeholder="Nombre del evento" name="nombre"> <br />
-  <input type="text" placeholder="Destino" name="destino"><br />
   <input type="datetime-local" name="dia"><br />
   <textarea name="descripcion"></textarea><br />
   <button type="submit">Crear!</button>
 </form>
+
+<input type="text" placeholder="Destino" id="google-lugares" class="controles"><br />
+<div id="mappy" style="width:900px; height:550px;"></div>
+
+<script type="text/javascript" src="/mapa.js"></script>
+<script type="text/javascript">
+  var mapa;
+  function initMapa(){
+    mapa = new Mapa("mappy");
+    mapa.autocomplete("google-lugares");
+  }
+  
+  function actualizarDestino(e){
+    var input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = 'destino';
+    input.value = mapa.marca;
+    e.appendChild(input);
+    return true;
+  }
+</script>
