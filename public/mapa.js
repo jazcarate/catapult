@@ -1,6 +1,4 @@
 /* global google */
-var colores = ['#5cb85c', 'blue', 'red', 'violet' ];
-
 function Mapa(mapaID, opciones){
     this.mapa = new google.maps.Map(
         document.getElementById(mapaID),
@@ -119,7 +117,7 @@ Mapa.prototype = {
         return JSON.stringify(data);
     },
     
-    variasRutas: function(rutas){
+    variasRutas: function(rutas, coloreo){
         var self = this;
         
         var i=0;
@@ -135,7 +133,7 @@ Mapa.prototype = {
             
             var opciones = {
                 polylineOptions: {
-                    strokeColor: colores[i++],
+                    strokeColor: coloreo(i++),
                 },
                 markerOptions: {
                     icon: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,

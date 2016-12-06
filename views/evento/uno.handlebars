@@ -8,14 +8,14 @@
   <table>
     <tr>
       <th>Auto</th>
-      <th>Asientos totales</th>
+      <th>Color</th>
       <th cellspace="{{maximaCapacidad}}">Ocupantes</th>
     </tr>
     
     {{#each evento.autos}}
     <tr>
       <td>{{this.duenio}}</td>
-      <td>{{this.asientosTotales}}</td>
+      <td class="aColorear">Color</td>
       {{#times this.asientosTotales}}
         <td><input type="text" name="ocupantes[{{this.duenio}}][{{@index}}]" placeholder="Ocupante {{@index}}" value="{{index_of this.ocupantes @index}}" /></td>
         
@@ -29,12 +29,15 @@
 </form>
 
 <script type="text/javascript" src="/mapa.js"></script>
+<script type="text/javascript" src="/colores.js"></script>
 <script>
   console.log({{{json evento}}});
   
   function initMapa() {
     var mapa = new Mapa('mapa');
-    mapa.variasRutas( armarRequests() );
+    mapa.variasRutas( armarRequests(), obtenerColor );
+    
+    colorear('aColorear');
   }
   
   function armarRequests(){
