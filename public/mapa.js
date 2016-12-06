@@ -1,4 +1,5 @@
 /* global google */
+var colores = ['#5cb85c', 'blue', 'red', 'violet' ];
 
 function Mapa(mapaID, opciones){
     this.mapa = new google.maps.Map(
@@ -15,11 +16,10 @@ Mapa.prototype = {
     obtenerRenderer: function(opciones){
         var ren = new google.maps.DirectionsRenderer(
             Object.assign(
-                {},
-                opciones,
                 {
                     'draggable':  false
-                }
+                },
+                opciones
             )
         );
         ren.setMap(this.mapa);
@@ -36,7 +36,7 @@ Mapa.prototype = {
             },
             function(res,sts) {
                 if(sts=='OK')
-                    self.obtenerRenderer().setDirections(res);
+                    self.obtenerRenderer({draggable: true}).setDirections(res);
             }
         );
     },
@@ -56,6 +56,7 @@ Mapa.prototype = {
     variasRutas: function(rutas){
         var self = this;
         
+        var i=0;
         rutas.forEach(function(unaRuta){
             var wp = unaRuta.waypoints.map(function(waypoint){
                 return {
@@ -66,6 +67,15 @@ Mapa.prototype = {
                 };
             });
             
+            var opciones = {
+                polylineOptions: {
+                    strokeColor: colores[i++],
+                },
+                markerOptions: {
+                    icon: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
+                }
+            };
+            
             self.ser.route(
                 {
                     'origin':new google.maps.LatLng(unaRuta.start.lat,unaRuta.start.lng),
@@ -75,7 +85,7 @@ Mapa.prototype = {
                 },
                 function(res,sts) {
                     if(sts==google.maps.DirectionsStatus.OK)
-                        self.obtenerRenderer({draggable: false}).setDirections(res);
+                        self.obtenerRenderer(opciones).setDirections(res);
                 }
             );
         });
