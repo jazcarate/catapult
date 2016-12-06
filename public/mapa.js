@@ -53,7 +53,7 @@ Mapa.prototype = {
         var self = this;
         var input = document.getElementById(inputId);
         var searchBox = new google.maps.places.SearchBox(input);
-        self.mapa.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+        //self.mapa.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
         self.mapa.addListener('bounds_changed', function() {
           searchBox.setBounds(self.mapa.getBounds());
         });

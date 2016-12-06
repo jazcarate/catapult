@@ -10,7 +10,8 @@ function _identity(x){
 var AutoSchema = new Schema({
   	duenio: String,
   	ruta: Object,
-	  asientosLibres: Number,
+	  asientosTotales: Number,
+	  ocupantes: [String],
 });
 
 var EventoSchema = new Schema({
@@ -21,18 +22,33 @@ var EventoSchema = new Schema({
 	descripcion: String,
 });
 
-EventoSchema.methods.calcularSalidas = function () {
-  return this.autos.map(function(auto){
-    return auto.ruta;
+EventoSchema.methods.editarOcupantes = function (ocupantes, cb) {
+  cb = cb || _identity;
+  var self = this;
+  Object.keys(ocupantes).forEach(function(key,index) {
+    
+    var auto = self.autos.find(function(unAuto){
+      return unAuto.duenio ==  key; 
+    });
+    
+    auto.ocupantes = ocupantes[key];
   });
+  this.save(cb);
 };
 
-EventoSchema.methods.agregarAuto = function(duenio, ruta, asientosLibres, cb) {
+EventoSchema.methods.maximaCapacidad = function() {
+  return Math.max.apply(null, this.autos.map(function(auto){
+    return auto.asientosTotales || 0;
+  }));
+};
+
+EventoSchema.methods.agregarAuto = function(duenio, ruta, asientosTotales, cb) {
   cb = cb || _identity;
   var auto = {
   	duenio: duenio,
   	ruta: ruta,
-	  asientosLibres: asientosLibres,
+	  asientosTotales: asientosTotales,
+	  ocupantes: []
   };
   this.autos.push(auto),
   this.save(cb);

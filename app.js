@@ -5,6 +5,8 @@ var express = require('express')
   , mongoose = require('mongoose')
   , exphbs  = require('express-handlebars')
   , hbshelpers = require('./lib/handlebarsHelpers')
+  , timeshelpers = require('./lib/timesHelpers')
+  , indexOfHelpers = require('./lib/indexOfHelpers')
   , jsonhelpers = require('./lib/jsonHelpers');
 
 var favicon = require('serve-favicon')
@@ -31,7 +33,7 @@ app.set('port', config.application.port);
 app.set('views', path.join(__dirname, 'views'));
 app.engine('handlebars', exphbs({
                             defaultLayout: 'main',
-                            helpers: { md: hbshelpers.md, json: jsonhelpers.json }
+                            helpers: { md: hbshelpers.md, json: jsonhelpers.json, times: timeshelpers.times, index_of: indexOfHelpers.index_of }
                         }));
 app.set('view engine', 'handlebars');
 app.use(favicon(__dirname + '/public/favicon.ico'));

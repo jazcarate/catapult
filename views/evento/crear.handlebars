@@ -4,12 +4,13 @@
 
 <form action="/nuevoEvento" method="POST" onSubmit="javascript: return actualizarDestino(this);">
   <input type="text" placeholder="Nombre del evento" name="nombre"> <br />
+  <input type="text" placeholder="Destino" id="busqueda-destinos"><br />
   <input type="datetime-local" name="dia"><br />
   <textarea name="descripcion"></textarea><br />
   <button type="submit">Crear!</button>
 </form>
 
-<input type="text" placeholder="Destino" id="google-lugares" class="controles"><br />
+
 <div id="mappy" style="width:900px; height:550px;"></div>
 
 <script type="text/javascript" src="/mapa.js"></script>
@@ -17,7 +18,7 @@
   var mapa;
   function initMapa(){
     mapa = new Mapa("mappy");
-    mapa.autocomplete("google-lugares");
+    mapa.autocomplete("busqueda-destinos");
   }
   
   function actualizarDestino(e){

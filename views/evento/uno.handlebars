@@ -1,11 +1,35 @@
 <h2>{{evento.nombre}}</h2>
 <a href="/evento/{{evento._id}}/auto">Agregar un auto</a> <br />
 <div id="floating-panel">
-{{#each evento.salidas}}
-    {{this}} |
-{{/each}}
 </div>
 <div id="mapa" style="width: 800px; height: 400px;"></div>
+
+{{json evento}}
+
+
+<form action="" method="POST">
+  <table>
+    <tr>
+      <th>Auto</th>
+      <th>Asientos totales</th>
+      <th cellspace="{{maximaCapacidad}}">Ocupantes</th>
+    </tr>
+    
+    {{#each evento.autos}}
+    <tr>
+      <td>{{this.duenio}}</td>
+      <td>{{this.asientosTotales}}</td>
+      {{#times this.asientosTotales}}
+        <td><input type="text" name="ocupantes[{{this.duenio}}][{{@index}}]" placeholder="Ocupante {{@index}}" value="{{index_of this.ocupantes @index}}" /></td>
+        
+      {{/times}}
+    </tr>
+    {{/each}}
+  </table>
+  
+  
+  <button type="submit">Guardar!</button>
+</form>
 
 <script type="text/javascript" src="/mapa.js"></script>
 <script>

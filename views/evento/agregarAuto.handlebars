@@ -5,7 +5,7 @@
 <form action="/nuevoAuto" method="POST" onSubmit="javascript: return calcularRuta(this);">
   <input type="hidden" name="evento" value="{{evento._id}}"> <br />
   <input type="text" placeholder="Nombre Persona" name="duenio"> <br />
-  Cantidad de asientos: <input type="number" name="asientosLibres"><br />
+  Cantidad de asientos: <input type="number" min="0" value="0" name="asientosTotales"><br />
   <button type="submit">Crear!</button>
 </form>
 
