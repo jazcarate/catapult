@@ -7,7 +7,9 @@ function Mapa(mapaID, opciones){
                 lat: -34.60368440000001,
                 lng: -58.381559100000004
             },
-            'zoom':12,
+            'zoom':7,
+            styles: estiloMapa,
+            disableDefaultUI: true,
             'mapTypeId': google.maps.MapTypeId.ROADMAP
         }
     );
@@ -133,12 +135,13 @@ Mapa.prototype = {
             
             var opciones = {
                 polylineOptions: {
-                    strokeColor: coloreo(i++),
+                    strokeColor: coloreo(i),
                 },
                 markerOptions: {
-                    icon: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
+                    icon: 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|' + coloreo(i).substring(1),
                 }
             };
+            i++;
             
             self.ser.route(
                 {

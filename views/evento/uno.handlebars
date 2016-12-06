@@ -1,37 +1,58 @@
-<h2>{{evento.nombre}}</h2>
-<a href="/evento/{{evento._id}}/auto">Agregar un auto</a> <br />
-<div id="floating-panel">
+<div class="overlay">
+  <p>
+     <strong>{{evento.nombre}}</strong> {{moment evento.dia}}
+  </p>
+  <div class="descripcion">
+    {{md evento.descripcion}}
+  </div>
+  <p class="small">
+    <a href="/evento/{{evento._id}}">Link para compartir</a>
+  </p>
 </div>
-<div id="mapa" style="width: 800px; height: 400px;"></div>
 
-<form action="" method="POST">
-  <table>
-    <tr>
-      <th>Auto</th>
-      <th>Color</th>
-      <th cellspace="{{maximaCapacidad}}">Ocupantes</th>
-    </tr>
-    
-    {{#each evento.autos}}
-    <tr>
-      <td>{{this.duenio}}</td>
-      <td class="aColorear">Color</td>
-      {{#times this.asientosTotales}}
-        <td><input type="text" name="ocupantes[{{this.duenio}}][{{@index}}]" placeholder="Ocupante {{@index}}" value="{{index_of this.ocupantes @index}}" /></td>
-        
-      {{/times}}
-    </tr>
-    {{/each}}
-  </table>
-  
-  
-  <button type="submit">Guardar!</button>
-</form>
+<div class="toggle-barra" style="display: block;" onClick="javascript: toggleBarra(this, 'autos');">Autos</div>
+<div class="barra" id="autos" style="display: none;">
+  <a href="/evento/{{evento._id}}/auto">Agregar un auto</a> <br />  
+  <form action="" method="POST">
+    <table>
+      <tr>
+        <th>Auto</th>
+        <th>Color</th>
+        <th colspan="{{maximaCapacidad}}">Ocupantes</th>
+      </tr>
+      
+      {{#each evento.autos}}
+      <tr>
+        <td>{{this.duenio}}</td>
+        <td class="aColorear">Color</td>
+        {{#times this.asientosTotales}}
+          <td>
+            <i class="fa fa-id-card" aria-hidden="true" title="{{index_of this.ocupantes @index}}"></i>
+            <input type="hidden" name="ocupantes[{{this.duenio}}][{{@index}}]" placeholder="Ocupante {{@index}}" value="{{index_of this.ocupantes @index}}" />
+          </td>
+          
+        {{/times}}
+      </tr>
+      {{/each}}
+    </table>
+    <button type="submit">Guardar!</button>
+  </form>
+</div>
 
-<script type="text/javascript" src="/mapa.js"></script>
-<script type="text/javascript" src="/colores.js"></script>
+<div id="mapa" class="mapa"></div>
+
+
 <script>
   console.log({{{json evento}}});
+  
+  function toggleDisplay(e){
+    e.style.display = (e.style.display === 'block' ? 'none' : 'block');
+  }
+  
+  
+  function toggleBarra(e, id){
+    toggleDisplay(document.getElementById(id));
+  }
   
   function initMapa() {
     var mapa = new Mapa('mapa');

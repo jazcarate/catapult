@@ -7,6 +7,7 @@ var express = require('express')
   , hbshelpers = require('./lib/handlebarsHelpers')
   , timeshelpers = require('./lib/timesHelpers')
   , indexOfHelpers = require('./lib/indexOfHelpers')
+  , momentHelpers = require('./lib/momentHelpers')
   , jsonhelpers = require('./lib/jsonHelpers');
 
 var favicon = require('serve-favicon')
@@ -16,7 +17,10 @@ var favicon = require('serve-favicon')
   , bodyParser = require('body-parser')
   , multer = require('multer')
   , errorHandler = require('errorhandler')
-  , config = require('./config');
+  , config = require('./config')
+  , moment = require('moment');
+
+moment.lang('es');
 
 mongoose.connect(config.db.mongodb, function(err) {
     if(err) {
@@ -33,7 +37,7 @@ app.set('port', config.application.port);
 app.set('views', path.join(__dirname, 'views'));
 app.engine('handlebars', exphbs({
                             defaultLayout: 'main',
-                            helpers: { md: hbshelpers.md, json: jsonhelpers.json, times: timeshelpers.times, index_of: indexOfHelpers.index_of }
+                            helpers: { md: hbshelpers.md, json: jsonhelpers.json, times: timeshelpers.times, index_of: indexOfHelpers.index_of, moment: momentHelpers.moment }
                         }));
 app.set('view engine', 'handlebars');
 app.use(favicon(__dirname + '/public/favicon.ico'));

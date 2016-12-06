@@ -6,7 +6,7 @@ var express = require('express')
 router.post('/nuevoEvento', function(req, res, next){
   Evento.crear(req.body.nombre, req.body.dia, req.body.descripcion, req.body.destino,
     function(evento){
-      res.redirect(`evento/${evento._id}/auto`);
+      res.redirect(`evento/${evento._id}`);
     }
   );
 });
