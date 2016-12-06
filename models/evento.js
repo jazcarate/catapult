@@ -9,7 +9,7 @@ function _identity(x){
 
 var AutoSchema = new Schema({
   	duenio: String,
-  	origen: String,
+  	ruta: Object,
 	  asientosLibres: Number,
 });
 
@@ -23,15 +23,15 @@ var EventoSchema = new Schema({
 
 EventoSchema.methods.calcularSalidas = function () {
   return this.autos.map(function(auto){
-    return auto.origen;
+    return auto.ruta;
   });
 };
 
-EventoSchema.methods.agregarAuto = function(duenio, origen, asientosLibres, cb) {
+EventoSchema.methods.agregarAuto = function(duenio, ruta, asientosLibres, cb) {
   cb = cb || _identity;
   var auto = {
   	duenio: duenio,
-  	origen: origen,
+  	ruta: ruta,
 	  asientosLibres: asientosLibres,
   };
   this.autos.push(auto),

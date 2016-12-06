@@ -14,7 +14,7 @@ router.post('/nuevoEvento', function(req, res, next){
 router.post('/nuevoAuto', function(req, res, next){
   Evento.encontrar(req.body.evento, function(err, evento){
     if (err) throw err;
-    evento.agregarAuto(req.body.duenio, req.body.origen, req.body.asientosLibres, function(err){
+    evento.agregarAuto(req.body.duenio, req.body.ruta, req.body.asientosLibres, function(err){
       if (err) throw err;
       res.redirect(`/evento/${evento._id}`);
     });

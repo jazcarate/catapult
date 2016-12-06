@@ -4,52 +4,25 @@
 {{#each evento.salidas}}
     {{this}} |
 {{/each}}
-<b>Destino: {{evento.destino}}</b>
-<p>Evento: {{json evento}}</p>
 </div>
 <div id="mapa" style="width: 800px; height: 400px;"></div>
+
+<script type="text/javascript" src="/mapa.js"></script>
 <script>
-  /*global google*/
-  function initMap() {
-    var directionsService = new google.maps.DirectionsService();
-    
-    var mapa = new google.maps.Map(document.getElementById('mapa'), {
-      zoom: 7
-    });
-    
-    for( unRequest of armarRequests()){
-      calcularYMostrar(directionsService, mapa, unRequest);
-    }
-    
+  console.log({{{json evento}}});
+  
+  function initMapa() {
+    var mapa = new Mapa('mapa');
+    mapa.variasRutas( armarRequests() );
   }
   
   function armarRequests(){
-    requestArray = [];
-    var destino = "{{evento.destino}}";
-    {{#each salidas}}
-      var desde = "{{this}}";
-      console.log(`Desde: ${desde}`);
-      console.log(`Hasta: ${destino}`);
-      var request = {
-              origin: "{{this}}",
-              destination: "{{evento.destino}}",
-              travelMode: google.maps.TravelMode.DRIVING
-          };
-      requestArray.push(request);
-    {{/each}}
-    return requestArray;
-  }
-
-  function calcularYMostrar(directionsService, mapa, request) {
-    directionsService.route(request, function(response, status) {
-      if (status === google.maps.DirectionsStatus.OK) {
-        var directionsDisplay = new google.maps.DirectionsRenderer(); 
-        directionsDisplay.setMap(mapa);
-        directionsDisplay.setDirections(response);
-      } else {
-        window.alert('Directions request failed due to ' + status);
-      }
+    var request = [];
+    var evento = {{{json evento}}};
+    
+    return evento.autos.map(function(auto){
+      return JSON.parse(JSON.parse(auto.ruta));
     });
   }
+  
 </script>
-<script async defer src="https://maps.googleapis.com/maps/api/js?key={{api}}&callback=initMap"></script>

@@ -2,10 +2,31 @@
   Agregar un auto para {{evento.nombre}}
 </h2>
 
-<form action="/nuevoAuto" method="POST">
+<form action="/nuevoAuto" method="POST" onSubmit="javascript: return calcularRuta(this);">
   <input type="hidden" name="evento" value="{{evento._id}}"> <br />
   <input type="text" placeholder="Nombre Persona" name="duenio"> <br />
-  <input type="text" placeholder="Origen" name="origen"><br />
   Cantidad de asientos: <input type="number" name="asientosLibres"><br />
   <button type="submit">Crear!</button>
 </form>
+
+<div id="mappy" style="width:900px; height:550px;"></div>
+
+<script type="text/javascript" src="/mapa.js"></script>
+<script type="text/javascript">
+  var mapa;
+  function initMapa(){
+    mapa = new Mapa("mappy");
+    mapa.ruta(
+      new google.maps.LatLng(26.104887637199948, -80.39231872768141),
+      new google.maps.LatLng(25.941991877144947, -80.16160583705641)
+    );
+  }
+  
+  function calcularRuta(e){
+    var input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = 'ruta';
+    input.value = mapa.guardar();
+    e.appendChild(input);
+  }
+</script>
