@@ -79,19 +79,11 @@
   }
   
   function initMapa() {
-    var mapa = new Mapa('mapa');
-    mapa.variasRutas( armarRequests(), obtenerColor );
-    
-    colorear('aColorear');
-  }
-  
-  function armarRequests(){
-    var request = [];
     var evento = {{{json evento}}};
-    
-    return evento.autos.map(function(auto){
-      return JSON.parse(auto.ruta);
-    });
+
+    var mapa = new Mapa('mapa');
+    mapa.variasRutas( evento.destino, evento.autos, obtenerColor );
+    colorear('aColorear');
   }
   
 </script>

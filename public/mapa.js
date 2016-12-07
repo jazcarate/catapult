@@ -92,7 +92,7 @@ Mapa.prototype = {
         });
     },
     
-    autocompleteRuta(inputId, destino){
+    autocompleteRuta: function(inputId, destino){
         var self = this;
         
         self.obtenerRenderer({draggable: true});
@@ -136,11 +136,20 @@ Mapa.prototype = {
         return JSON.stringify(data);
     },
     
-    variasRutas: function(rutas, coloreo){
+    aCoordenada: function(s){
+        var input = s.replace('(', '')
+                     .split(",", 2);
+        var lat = parseFloat(input[0]);
+        var lng = parseFloat(input[1]);
+        return new google.maps.LatLng(lat, lng);  
+    },
+    
+    variasRutas: function(destino, autos, coloreo){
         var self = this;
         
         var i=0;
-        rutas.forEach(function(unaRuta){
+        autos.forEach(function(unAuto){
+            var unaRuta = rutaDe(unAuto);
             var wp = unaRuta.waypoints.map(function(waypoint){
                 return {
                     'location': new google.maps.LatLng(
@@ -154,25 +163,58 @@ Mapa.prototype = {
                 polylineOptions: {
                     strokeColor: coloreo(i),
                 },
-                markerOptions: {
-                    icon: 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|' + coloreo(i).substring(1),
-                }
+                suppressMarkers: true
             };
-            i++;
             
+            var inicio = new google.maps.LatLng(unaRuta.start.lat,unaRuta.start.lng);
+            var fin = new google.maps.LatLng(unaRuta.end.lat,unaRuta.end.lng);
             self.ser.route(
                 {
-                    'origin':new google.maps.LatLng(unaRuta.start.lat,unaRuta.start.lng),
-                    'destination':new google.maps.LatLng(unaRuta.end.lat,unaRuta.end.lng),
+                    'origin': inicio,
+                    'destination': fin,
                     'waypoints': wp,
                     'travelMode': google.maps.DirectionsTravelMode.DRIVING
                 },
                 function(res,sts) {
-                    if(sts==google.maps.DirectionsStatus.OK)
+                    if(sts==google.maps.DirectionsStatus.OK){
                         self.obtenerRenderer(opciones).setDirections(res);
+                    }
                 }
             );
+            self.marcar(inicio, 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|' + coloreo(i).substring(1), unAuto);
+            self.marcar(fin);
+            i++;
         });
     },
     
+    marcar: function(pos, img, auto){
+        var self = this;
+        var marcador = new google.maps.Marker({
+            position: pos,
+            map: self.mapa,
+            icon: img || '/destino.png'
+        });
+        if( !(auto === undefined) ){
+            var infowindow = new google.maps.InfoWindow({
+                content: armarContenido(auto)
+            });
+            marcador.addListener('click', function() {
+                infowindow.open(self.mapa, marcador);
+            });
+        }
+    },
 };
+
+function armarContenido(c){
+    return '<div id="content">'+
+          '<h1 id="firstHeading" class="firstHeading">Auto de ' + c.duenio + '</h1>'+
+          '<div id="bodyContent">'+
+             '<p>De <strong>' + c.asientosTotales + '</strong> lugares, le quedan <strong>' + (c.asientosTotales - c.ocupantes.length) + '</strong></p>'+
+             '<p>Sumate apretando la ventana de "Autos" a la izquierda!</p>'+
+          '</div>'+
+      '</div>';
+}
+
+function rutaDe(auto){
+  return JSON.parse(auto.ruta);
+}
