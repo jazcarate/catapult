@@ -1,7 +1,7 @@
 module.exports = {
     "db": {
         "test": 'mongodb://localhost/catapult_test',
-        "mongodb": process.env.MONGO_URI || 'mongodb://localhost/catapult'
+        "mongodb": process.env.MONGODB_URI || 'mongodb://localhost/catapult'
     },
     "logger": {
         "api": "logs/api.log",

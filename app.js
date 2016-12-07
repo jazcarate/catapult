@@ -23,6 +23,8 @@ var favicon = require('serve-favicon')
 
 moment.locale('es');
 
+console.log(process.env);
+
 mongoose.connect(config.db.mongodb, function(err) {
     if(err) {
         console.log('connection error', err);
