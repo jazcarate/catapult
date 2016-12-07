@@ -20,21 +20,25 @@
   <form action="" method="POST">
     <table>
       <tr>
-        <th>Auto</th>
-        <th>Color</th>
+        <th colspan="2">Auto</th>
         <th colspan="{{maximaCapacidad}}">Ocupantes</th>
       </tr>
       
       {{#each evento.autos}}
       <tr>
+        <td class="aColorear"><i class="fa fa-car" aria-hidden="true"></i></td>
         <td>{{this.duenio}}</td>
-        <td class="aColorear">Color</td>
         {{#times this.asientosTotales}}
           <td>
-            <i class="fa fa-id-card" aria-hidden="true" title="{{index_of this.ocupantes @index}}"></i>
+            <div class="link" onClick="javascript: editarPasajero(this);">
+              {{#ifArray this.ocupantes @index}}
+                <i class="fa fa-id-card" aria-hidden="true" title="{{index_of this.ocupantes @index}}"></i>
+              {{else}}
+                Libre!
+              {{/ifArray}}
+            </div>
             <input type="hidden" name="ocupantes[{{this.duenio}}][{{@index}}]" placeholder="Ocupante {{@index}}" value="{{index_of this.ocupantes @index}}" />
           </td>
-          
         {{/times}}
       </tr>
       {{/each}}
@@ -47,6 +51,11 @@
 
 <script>
   console.log({{{json evento}}});
+  
+  function editarPasajero(e){
+    e.nextElementSibling.type = "input";
+    e.remove();
+  }
   
   function toggleDisplay(e){
     e.style.display = (e.style.display === 'block' ? 'none' : 'block');
