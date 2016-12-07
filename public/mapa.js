@@ -49,57 +49,67 @@ Mapa.prototype = {
         );
     },
     
-    autocomplete: function(inputId){
+    autocompleteMarcas: function(inputId){
+        var self = this;
+        var markers = [];
+        self.autocomplete(inputId, function(places){
+            if (places.length == 0) return;
+        
+            //Borrar los marcadores
+            markers.forEach(function(marker) {
+                marker.setMap(null);
+            });
+            markers = [];
+            
+            var bounds = new google.maps.LatLngBounds();
+            places.forEach(function(place) {
+                if (!place.geometry) {
+                    console.log("El lugar no tiene geometria.");
+                    return;
+                }
+            
+                var poi = new google.maps.Marker({
+                    draggable: true,
+                    map: self.mapa,
+                    title: place.name,
+                    position: place.geometry.location
+                });
+                
+                markers.push(poi);
+                self.setMarca(place.geometry.location);
+                
+                google.maps.event.addListener(poi, 'dragend', function(e) {
+                    self.setMarca(this.getPosition());
+                });
+                
+                if (place.geometry.viewport) {
+                    bounds.union(place.geometry.viewport);
+                } else {
+                    bounds.extend(place.geometry.location);
+                }
+            });
+            self.mapa.fitBounds(bounds);
+        });
+    },
+    
+    autocompleteRuta(inputId, destino){
+        var self = this;
+        self.autocomplete(inputId, function(places){
+            self.ruta(places[0].geometry.location, destino);
+        });
+    },
+    
+    autocomplete: function(inputId, cb){
         var self = this;
         var input = document.getElementById(inputId);
         var searchBox = new google.maps.places.SearchBox(input);
-        //self.mapa.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
         self.mapa.addListener('bounds_changed', function() {
           searchBox.setBounds(self.mapa.getBounds());
         });
         
-        var markers = [];
         searchBox.addListener('places_changed', function() {
-          var places = searchBox.getPlaces();
-
-          if (places.length == 0) {
-            return;
-          }
-
-          //Borrar los marcadores
-          markers.forEach(function(marker) {
-            marker.setMap(null);
-          });
-          markers = [];
-
-          var bounds = new google.maps.LatLngBounds();
-          places.forEach(function(place) {
-            if (!place.geometry) {
-              console.log("El lugar no tiene geometria.");
-              return;
-            }
-
-            var poi = new google.maps.Marker({
-              draggable: true,
-              map: self.mapa,
-              title: place.name,
-              position: place.geometry.location
-            });
-            
-            markers.push(poi);
-            self.setMarca(place.geometry.location);
-            
-            google.maps.event.addListener(poi, 'dragend', function(e) {
-                self.setMarca(this.getPosition());
-            });
-
-            if (place.geometry.viewport) {
-              bounds.union(place.geometry.viewport);
-            } else {
-              bounds.extend(place.geometry.location);
-            }
-          });
-          self.mapa.fitBounds(bounds);
+            var places = searchBox.getPlaces();
+            cb(places);
         });
     },
     

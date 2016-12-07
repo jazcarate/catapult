@@ -1,13 +1,13 @@
 <div class="overlay">
   <p>
-     <strong>{{evento.nombre}}</strong> {{moment evento.dia}}
+     <strong>{{evento.nombre}}</strong> {{moment evento.dia}} <i class="fa fa-question-circle" aria-hidden="true" title="{{evento.dia}}"></i>
   </p>
   <div class="descripcion">
     {{md evento.descripcion}}
   </div>
-  <p class="small">
+  <div class="small notita">
     <a href="/evento/{{evento._id}}">Link para compartir</a>
-  </p>
+  </div>
 </div>
 
 <div class="toggle-barra" style="display: block;" onClick="javascript: toggleBarra(this, 'autos');">Autos</div>
@@ -40,7 +40,6 @@
 </div>
 
 <div id="mapa" class="mapa"></div>
-
 
 <script>
   console.log({{{json evento}}});

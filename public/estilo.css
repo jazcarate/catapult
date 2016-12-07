@@ -53,6 +53,10 @@ a .sub {
     overflow-y: auto;
     max-height: 50vh;
 }
+.overlay .notita {
+    position:absolute;
+    bottom: 1em;
+}
 
 .toggle-barra {
     position: absolute;
@@ -82,7 +86,7 @@ a .sub {
     z-index: 3;
 }
 
-.mapa{
+.mapa {
     height: 95vh;
     width: 100%;
 }

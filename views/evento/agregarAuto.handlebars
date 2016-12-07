@@ -1,24 +1,40 @@
-<h2>
-  Agregar un auto para {{evento.nombre}}
-</h2>
+<div class="overlay">
+  <p>
+     Agregar un auto a <strong>{{evento.nombre}}</strong>
+  </p>
+  <form action="/nuevoAuto" method="POST" onSubmit="javascript: return calcularRuta(this);">
+    <input type="hidden" name="evento" value="{{evento._id}}"> <br />
+    
+    Partida <img src="https://chart.googleapis.com/chart?chst=d_map_pin_letter&chld=A|7FC73F|000000" /><br />
+    <input type="text" id="partida"> <br />
+  
+    Nombre del conductor <br />
+    <input type="text" name="duenio"> <br />
+    
+    Asientos disponibles <i class="fa fa-question-circle" aria-hidden="true" title="Sin contarte a vos mismo"></i> <br />
+    <input type="number" min="0" value="0" name="asientosTotales"><br />
+    
+    <button type="submit">Crear!</button>
+  </form>
+  <div class="small notita">
+    <a href="/evento/{{evento._id}}">Volver</a>
+  </div>
+</div>
 
-<form action="/nuevoAuto" method="POST" onSubmit="javascript: return calcularRuta(this);">
-  <input type="hidden" name="evento" value="{{evento._id}}"> <br />
-  <input type="text" placeholder="Nombre Persona" name="duenio"> <br />
-  Cantidad de asientos: <input type="number" min="0" value="0" name="asientosTotales"><br />
-  <button type="submit">Crear!</button>
-</form>
 
-<div id="mappy" style="width:900px; height:550px;"></div>
+
+<div id="mappy" class="mapa"></div>
 
 <script type="text/javascript">
   var mapa;
   function initMapa(){
     mapa = new Mapa("mappy");
-    mapa.ruta(
-      new google.maps.LatLng(-34.60368440000001, -58.381559100000004),
-      new google.maps.LatLng{{{evento.destino}}}
-    );
+    mapa.autocompleteRuta(
+      'partida',
+      new google.maps.LatLng{{{evento.destino}}});
+    
+    
+    //Buernos Aires:      new google.maps.LatLng(-34.60368440000001, -58.381559100000004),
   }
   
   function calcularRuta(e){
