@@ -44,7 +44,7 @@ Mapa.prototype = {
             },
             function(res,sts) {
                 if(sts=='OK')
-                    self.obtenerRenderer({draggable: true}).setDirections(res);
+                    self.getUltimoRen().setDirections(res);
             }
         );
     },
@@ -94,7 +94,14 @@ Mapa.prototype = {
     
     autocompleteRuta(inputId, destino){
         var self = this;
-        self.autocomplete(inputId, function(places){
+        
+        self.obtenerRenderer({draggable: true});
+        self.ruta(
+            new google.maps.LatLng(-34.60368440000001, -58.381559100000004),
+            destino);
+        
+        self.autocomplete(inputId, function(places, input){
+            input.value = places[0].formatted_address
             self.ruta(places[0].geometry.location, destino);
         });
     },
@@ -109,7 +116,7 @@ Mapa.prototype = {
         
         searchBox.addListener('places_changed', function() {
             var places = searchBox.getPlaces();
-            cb(places);
+            cb(places, input);
         });
     },
     

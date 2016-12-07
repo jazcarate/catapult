@@ -1,17 +1,18 @@
-<h2>
-  Crear un evento
-</h2>
-
-<form action="/nuevoEvento" method="POST" onSubmit="javascript: return actualizarDestino(this);">
-  <input type="text" placeholder="Nombre del evento" name="nombre"> <br />
+<div class="overlay">
+  <p>
+     Crear un <strong>Evento</strong></strong>
+  </p>
   <input type="text" placeholder="Destino" id="busqueda-destinos"><br />
-  <input type="datetime-local" name="dia"><br />
-  <textarea name="descripcion"></textarea><br />
+  <form action="/nuevoEvento" method="POST" onSubmit="javascript: return actualizarDestino(this);">
+    <input type="text" placeholder="Nombre del evento" name="nombre" required> <br />
+    
+    <input type="datetime-local" name="dia" required><br />
+    <textarea name="descripcion"></textarea><br />
   <button type="submit">Crear!</button>
 </form>
+</div>
 
-
-<div id="mappy" style="width:900px; height:550px;"></div>
+<div id="mappy" class="mapa"></div>
 
 <script type="text/javascript">
   var mapa;
@@ -21,6 +22,13 @@
   }
   
   function actualizarDestino(e){
+    debugger;
+    
+    if( mapa.marca === undefined ){
+      alert("No hay una ubicación!");
+      return false;
+    }
+    
     var input = document.createElement('input');
     input.type = 'hidden';
     input.name = 'destino';

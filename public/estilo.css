@@ -58,6 +58,10 @@ a .sub {
     bottom: 1em;
 }
 
+.overlay input, .overlay textarea{
+    width: 100%;
+}
+
 .toggle-barra {
     position: absolute;
     top: 50%;
