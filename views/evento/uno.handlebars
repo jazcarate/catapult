@@ -26,7 +26,10 @@
       
       {{#each evento.autos}}
       <tr>
-        <td class="aColorear"><i class="fa fa-car" aria-hidden="true"></i></td>
+        <td class="aColorear">
+          <i class="fa fa-car" aria-hidden="true"></i>
+          <i class="fa fa-trash-o" aria-hidden="true" onClick="javascript: borrarAuto(this);"></i>
+        </td>
         <td>{{this.duenio}}</td>
         {{#times this.asientosTotales}}
           <td>
@@ -51,6 +54,11 @@
 
 <script>
   console.log({{{json evento}}});
+  
+  function borrarAuto(e){
+    if( confirm("Estas seguro? (Los cambios solo se aplican al guardar)") )
+      e.parentElement.parentElement.remove()
+  }
   
   function editarPasajero(e){
     e.nextElementSibling.type = "input";

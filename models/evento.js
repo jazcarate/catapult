@@ -33,6 +33,9 @@ EventoSchema.methods.editarOcupantes = function (ocupantes, cb) {
     
     auto.ocupantes = ocupantes[key];
   });
+  //Borrar los que no estan
+  self.autos = self.autos.filter(function(unAuto){ return Object.keys(ocupantes).indexOf(unAuto.duenio) != -1; });
+  
   this.save(cb);
 };
 
