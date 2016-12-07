@@ -2,11 +2,14 @@
   <p>
      Crear un <strong>Evento</strong></strong>
   </p>
+  Destino <br />
   <input type="text" placeholder="Destino" id="busqueda-destinos"><br />
   <form action="/nuevoEvento" method="POST" onSubmit="javascript: return actualizarDestino(this);">
+    Nombre <br />
     <input type="text" placeholder="Nombre del evento" name="nombre" required> <br />
-    
+    Día del evento <br />
     <input type="datetime-local" name="dia" required><br />
+    Descripción <em>(opcional)</em> <br />
     <textarea name="descripcion"></textarea><br />
   <button type="submit">Crear!</button>
 </form>
@@ -23,7 +26,7 @@
   
   function actualizarDestino(e){
     if( mapa.marca === undefined ){
-      alert("No hay una ubicación!");
+      alert("Indroduzca destino");
       return false;
     }
     

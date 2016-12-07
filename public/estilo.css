@@ -65,7 +65,8 @@ a .sub, .link {
 }
 
 #autos.barra table td {
-    padding: 1em;
+    padding: 0.4em;
+    text-align: center;
 }
 
 .toggle-barra {
@@ -93,6 +94,7 @@ a .sub, .link {
     top: 50%;
     transform: translateY(-50%);
     right: 44px;;
+    padding: 0.4em;
     z-index: 3;
 }
 
@@ -103,6 +105,10 @@ a .sub, .link {
 
 .right {
     float: right;
+}
+
+.left {
+    float: left;
 }
 
 .small {

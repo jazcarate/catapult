@@ -16,28 +16,31 @@
 
 <div class="toggle-barra" style="display: block;" onClick="javascript: toggleBarra(this, 'autos');">Autos</div>
 <div class="barra" id="autos" style="display: none;">
-  <a href="/evento/{{evento._id}}/auto">Agregar un auto</a> <br />  
   <form action="" method="POST">
     <table>
       <tr>
-        <th colspan="2">Auto</th>
+        <th></th>
+        <th colspan="2">Conductor</th>
         <th colspan="{{maximaCapacidad}}">Ocupantes</th>
       </tr>
       
       {{#each evento.autos}}
+      
       <tr>
+        <td>
+          <i class="fa fa-trash-o" aria-hidden="true" onClick="javascript: borrarAuto(this);"></i>
+        </td>
         <td class="aColorear">
           <i class="fa fa-car" aria-hidden="true"></i>
-          <i class="fa fa-trash-o" aria-hidden="true" onClick="javascript: borrarAuto(this);"></i>
         </td>
         <td>{{this.duenio}}</td>
         {{#times this.asientosTotales}}
           <td>
             <div class="link" onClick="javascript: editarPasajero(this);">
               {{#ifArray this.ocupantes @index}}
-                <i class="fa fa-id-card" aria-hidden="true" title="{{index_of this.ocupantes @index}}"></i>
+                <i class="fa fa-child" aria-hidden="true" title="{{index_of this.ocupantes @index}}"></i>
               {{else}}
-                Libre!
+                <i class="fa fa-user-plus" aria-hidden="true"></i>
               {{/ifArray}}
             </div>
             <input type="hidden" name="ocupantes[{{this.duenio}}][{{@index}}]" placeholder="Ocupante {{@index}}" value="{{index_of this.ocupantes @index}}" />
@@ -46,8 +49,9 @@
       </tr>
       {{/each}}
     </table>
-    <button type="submit">Guardar!</button>
+    <button class="right" type="submit">Guardar!</button>
   </form>
+  <a class="left" href="/evento/{{evento._id}}/auto">Agregar un auto</a> <br />  
 </div>
 
 <div id="mapa" class="mapa"></div>
