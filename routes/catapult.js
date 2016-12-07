@@ -24,7 +24,7 @@ router.post('/nuevoAuto', function(req, res, next){
 router.get('/evento/:evento/auto', function(req, res, next){
   Evento.encontrar(req.params.evento, function(err, evento){
     if (err) throw err;
-    res.render('evento/agregarAuto', { api: config.application.gmaps_api, evento: evento });  
+    res.render('evento/agregarAuto', { evento: evento });  
   });
 });
 
@@ -40,7 +40,7 @@ router.post('/evento/:evento/', function(req, res, next){
 router.get('/evento/:evento/', function(req, res, next){
   Evento.encontrar(req.params.evento, function(err, evento){
     if (err) throw err;
-    res.render('evento/uno', { api: config.application.gmaps_api, evento: evento, maximaCapacidad: evento.maximaCapacidad() });  
+    res.render('evento/uno', { evento: evento, maximaCapacidad: evento.maximaCapacidad() });  
   });
 });
 
