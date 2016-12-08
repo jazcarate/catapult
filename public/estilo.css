@@ -22,15 +22,21 @@ nav .title{
     font-size: 1.4em;
     letter-spacing: 2px;
 }
+
 nav a {
-    color: inherit;
+    color: inherit !important;
+}
+
+a:link, a:visited, a:active, .link {
+    color: #3e3e61;
+    border-bottom: 1px #c6b7a8 dashed;
+    cursor: pointer;
     text-decoration: none;
 }
-a .sub, .link {
-    border-bottom: 1px #c6b7a8 dashed;
-    margin: 1em;
-    cursor: pointer;
+a:hover, .link:hover {
+    color: #c6b7a8;
 }
+
 
 .wrapper {
     margin: 3em 0 0 0;
