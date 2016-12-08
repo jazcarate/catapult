@@ -1,4 +1,14 @@
-<div class="overlay">
+<div class="todo" id="tutorial" onClick="javascript: cerrarTutorial();">
+  <div class="cuadro" onclick="event.cancelBubble=true;if (event.stopPropagation) event.stopPropagation();">
+    <h1>Tutorial</h1>
+    <p>Si tenes un auto; podes <a href="/evento/{{evento._id}}/auto">agregarlo</a></p>
+    <p>Si queres ubicarte con alguno; cargarlo a la derecha en la barra de <strong class="link" onClick="javascript: toggleBarra('autos');">Autos</strong></p>
+    <p></p>
+    <p class="small"><em>Para cerrarlo apretá afuera</em></p>
+  </div>
+</div>
+
+<div class="overlay blur">
   <p>
      <strong>{{evento.nombre}}</strong> {{moment evento.dia}} <i class="fa fa-question-circle" aria-hidden="true" title="{{evento.dia}}"></i>
   </p>
@@ -14,7 +24,7 @@
   </div>
 </div>
 
-<div class="toggle-barra" style="display: block;" onClick="javascript: toggleBarra(this, 'autos');">Autos</div>
+<div class="toggle-barra" id="desplegar" style="display: block;" onClick="javascript: toggleBarra('autos');">Autos</div>
 <div class="barra" id="autos" style="display: none;">
   <form action="" method="POST">
     <table>
@@ -54,10 +64,19 @@
   <a class="left" href="/evento/{{evento._id}}/auto">Agregar un auto</a> <br />  
 </div>
 
-<div id="mapa" class="mapa"></div>
+<div id="mapa" class="mapa blur"></div>
 
 <script>
   console.log({{{json evento}}});
+  
+  function cerrarTutorial(){
+    document.getElementById('tutorial').remove();
+    var blureados= document.getElementsByClassName('blur');
+    while(blureados[0]){
+        blureados[0].classList.remove('blur');
+    }
+    return false;
+  }
   
   function borrarAuto(e){
     if( confirm("Estas seguro? (Los cambios solo se aplican al guardar)") )
@@ -74,7 +93,7 @@
   }
   
   
-  function toggleBarra(e, id){
+  function toggleBarra(id){
     toggleDisplay(document.getElementById(id));
   }
   

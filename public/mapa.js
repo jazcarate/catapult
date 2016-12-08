@@ -210,7 +210,7 @@ function armarContenido(c){
           '<h1 id="firstHeading" class="firstHeading">Auto de ' + c.duenio + '</h1>'+
           '<div id="bodyContent">'+
              '<p>De <strong>' + c.asientosTotales + '</strong> lugares, le quedan <strong>' + (c.asientosTotales - c.ocupantes.length) + '</strong></p>'+
-             '<p>Sumate apretando la ventana de "Autos" a la izquierda!</p>'+
+             '<p>Sumate apretando la ventana de "Autos" a la derecha!</p>'+
           '</div>'+
       '</div>';
 }
