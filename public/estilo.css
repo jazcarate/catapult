@@ -151,3 +151,34 @@ a:hover, .link:hover {
 .hidden {
     display: none;
 }
+
+@media only screen and (max-device-width: 480px) {
+    body, html{
+        overflow: auto;
+    }
+    
+	.overlay {
+	    position: inherit;
+	    min-height: 0;
+	    width: auto;
+	    padding: 0.5em;
+	}
+
+	.mapa {
+		height: 100vw;
+	}
+	
+	.overlay .notita {
+        position: inherit;
+	}
+
+    .toggle-barra {
+        display: none;
+	}
+	
+	.barra {
+        display: block;
+        position: inherit;
+        transform: initial;
+	}
+}

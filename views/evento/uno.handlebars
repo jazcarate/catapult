@@ -26,8 +26,8 @@
   </div>
 </div>
 
-<div class="toggle-barra" id="desplegar" style="display: block;" onClick="javascript: toggleBarra('autos');">Autos</div>
-<div class="barra" id="autos" style="display: none;">
+<div class="toggle-barra" id="desplegar" onClick="javascript: toggleBarra('autos');">Autos</div>
+<div class="barra hidden" id="autos">
   <form action="" method="POST">
     <table>
       <tr>
@@ -107,7 +107,7 @@
   }
   
   function toggleDisplay(e){
-    e.style.display = (e.style.display === 'block' ? 'none' : 'block');
+    e.classList.toggle('hidden')
   }
   
   
