@@ -181,7 +181,7 @@ Mapa.prototype = {
                     }
                 }
             );
-            self.marcar(inicio, 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|' + coloreo(i).substring(1), unAuto);
+            self.marcar(inicio, 'https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|' + coloreo(i).substring(1), unAuto);
             self.marcar(fin);
             i++;
         });
@@ -192,7 +192,12 @@ Mapa.prototype = {
         var marcador = new google.maps.Marker({
             position: pos,
             map: self.mapa,
-            icon: img || '/destino.png'
+            icon: img || {
+                url: '/destino.png',
+                size: new google.maps.Size(50, 65),
+                origin: new google.maps.Point(0, 0),
+                anchor: new google.maps.Point(0, 64)
+            }
         });
         if( !(auto === undefined) ){
             var infowindow = new google.maps.InfoWindow({

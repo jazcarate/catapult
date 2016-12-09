@@ -1,4 +1,4 @@
-<div class="todo" id="tutorial" onClick="javascript: cerrarTutorial();">
+<div class="todo hidden" id="tutorial" onClick="javascript: cerrarTutorial();">
   <div class="cuadro" onclick="event.cancelBubble=true;if (event.stopPropagation) event.stopPropagation();">
     <h1>Tutorial</h1>
     <p>Si tenes un auto, podes agregarlo <a href="/evento/{{evento._id}}/auto">acá</a>.</p>
@@ -8,7 +8,7 @@
   </div>
 </div>
 
-<div class="overlay blur">
+<div class="overlay blureable">
   <p>
      <strong>{{evento.nombre}}</strong> {{moment evento.dia}} <i class="fa fa-question-circle" aria-hidden="true" title="{{evento.dia}}"></i>
   </p>
@@ -20,7 +20,9 @@
     {{md evento.descripcion}}
   </div>
   <div class="small notita">
-    <a href="/evento/{{evento._id}}">Link para compartir</a>
+    <a href="/evento/{{evento._id}}/auto">Agregar un auto</a> <br />  
+    <a href="/evento/{{evento._id}}">Link para compartir</a> <br />
+    <a href="javascript: mostrarTutorial();">Mostrar Tutorial</a> <br/ >
   </div>
 </div>
 
@@ -64,18 +66,34 @@
   <a class="left" href="/evento/{{evento._id}}/auto">Agregar un auto</a> <br />  
 </div>
 
-<div id="mapa" class="mapa blur"></div>
+<div id="mapa" class="mapa blureable"></div>
 
+
+<script type="text/javascript" src="/galletas.js"></script>
 <script>
   console.log({{{json evento}}});
   
-  function cerrarTutorial(){
-    document.getElementById('tutorial').remove();
-    var blureados= document.getElementsByClassName('blur');
-    while(blureados[0]){
-        blureados[0].classList.remove('blur');
+  var galleta = new Galleta('mostrarTutorial');
+  
+  if(!galleta.obtener()){
+    mostrarTutorial();
+  }
+  
+  function mostrarTutorial(){
+    document.getElementById('tutorial').classList.remove('hidden');
+    var blureados= document.getElementsByClassName('blureable');
+    for (var i = 0; i < blureados.length; i++) {
+        blureados[i].classList.add('blur');
     }
-    return false;
+  }
+  
+  function cerrarTutorial(){
+    document.getElementById('tutorial').classList.add('hidden');
+    var blureados= document.getElementsByClassName('blureable');
+    for (var i = 0; i < blureados.length; i++) {
+        blureados[i].classList.remove('blur');
+    }
+    galleta.expira(60*60*1000).con(false).guardar() //1Hora
   }
   
   function borrarAuto(e){
