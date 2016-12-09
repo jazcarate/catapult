@@ -146,6 +146,7 @@ Mapa.prototype = {
     
     variasRutas: function(destino, autos, coloreo){
         var self = this;
+        var bound = new google.maps.LatLngBounds();
         
         var i=0;
         autos.forEach(function(unAuto){
@@ -163,7 +164,8 @@ Mapa.prototype = {
                 polylineOptions: {
                     strokeColor: coloreo(i),
                 },
-                suppressMarkers: true
+                suppressMarkers: true,
+                preserveViewport: true
             };
             
             var inicio = new google.maps.LatLng(unaRuta.start.lat,unaRuta.start.lng);
@@ -178,6 +180,8 @@ Mapa.prototype = {
                 function(res,sts) {
                     if(sts==google.maps.DirectionsStatus.OK){
                         self.obtenerRenderer(opciones).setDirections(res);
+                        bound = bound.union(res.routes[0].bounds);
+                        self.mapa.fitBounds(bound);
                     }
                 }
             );
