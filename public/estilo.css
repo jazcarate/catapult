@@ -103,6 +103,8 @@ a:hover, .link:hover {
     right: 44px;;
     padding: 0.4em;
     z-index: 3;
+    overflow: auto;
+    height: 70vh;
 }
 
 .mapa {
